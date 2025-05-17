@@ -54,5 +54,5 @@ jobs:
         with:
           app-name: 'mywebhooks'
           slot-name: 'Production'
-          package: .
+          package: .net-app
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_58D035DBD2724102A68DE80C024EC007 }}
