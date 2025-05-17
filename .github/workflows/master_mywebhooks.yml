@@ -32,9 +32,8 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-         name: net-app.zip  # Ensure it's explicitly named as net-app.zip (not doubled)
+         name: net-app  # Removing the .zip suffix here; GitHub automatically zips it
          path: "${{ github.workspace }}/myapp"
-
 
   deploy:
     runs-on: windows-latest
@@ -47,13 +46,13 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: net-app.zip  # Match exactly with the uploaded name
-      
+          name: net-app  # Matching exactly what was uploaded
+     
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
          app-name: 'mywebhooks'
          slot-name: 'Production'
-         package: "${{ github.workspace }}/net-app.zip"  # Ensure exact match
+         package: "${{ github.workspace }}/net-app.zip"  # Match the zip file GitHub creates
          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_58D035DBD2724102A68DE80C024EC007 }}
