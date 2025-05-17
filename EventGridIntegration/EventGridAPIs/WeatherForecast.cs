@@ -1,4 +1,4 @@
-namespace EventGridWebhookProject
+namespace EventGridAPIs
 {
     public class WeatherForecast
     {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace EventGridWebhookProject.Controllers
+namespace EventGridAPIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

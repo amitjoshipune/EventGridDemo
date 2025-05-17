@@ -1,6 +1,6 @@
-@EventGridWebhookProject_HostAddress = http://localhost:5088
+@EventGridAPIs_HostAddress = http://localhost:5088
 
-GET {{EventGridWebhookProject_HostAddress}}/weatherforecast/
+GET {{EventGridAPIs_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

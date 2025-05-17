@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace EventGridWebhookProject.Controllers
+namespace EventGridAPIs.Controllers
 {
     [ApiController]
     [Route("[controller]")]
