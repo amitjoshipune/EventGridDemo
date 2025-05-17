@@ -32,8 +32,9 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
+          name: net-app.zip  # Explicitly setting the artifact name
           path: "${{ github.workspace }}/myapp"
+
 
   deploy:
     runs-on: windows-latest
@@ -52,8 +53,9 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'mywebhooks'
-          slot-name: 'Production'
-          package: "D:/a/EventGridDemo/EventGridDemo/.net-app.zip"
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_58D035DBD2724102A68DE80C024EC007 }}
+         app-name: 'mywebhooks'
+         slot-name: 'Production'
+         package: "${{ github.workspace }}/net-app.zip"
+         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_58D035DBD2724102A68DE80C024EC007 }}
+
 
