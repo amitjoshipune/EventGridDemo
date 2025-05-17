@@ -39,7 +39,8 @@ namespace EventGridAPIs.Controllers
                 }
             }
 
-            return Ok();
+            //return Ok();
+            return Ok(new { message = "Event Received Successfully", receivedEvents = events });
         }
     }
 }
