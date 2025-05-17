@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.EventGrid.Models;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace EventGridWebhookProject.Controllers
 {
@@ -9,29 +13,33 @@ namespace EventGridWebhookProject.Controllers
     public class EventGridController : ControllerBase
     {
         [HttpPost]
-        public IActionResult HandleEvent([FromBody] JsonElement eventGridEvent)
+        public IActionResult HandleEventGridEvents([FromBody] List<EventGridEvent> events)
         {
-            // Validate the Event Grid handshake
-            if (eventGridEvent.GetProperty("eventType").GetString() == "Microsoft.EventGrid.SubscriptionValidationEvent")
+            foreach (var eventGridEvent in events)
             {
-                var validationCode = eventGridEvent.GetProperty("data").GetProperty("validationCode").GetString();
-                return Ok(new { validationResponse = validationCode });
-            }
+                Console.WriteLine($"Received event: {eventGridEvent.EventType}");
 
-            // Log the event details
-            Console.WriteLine($"Event received: {eventGridEvent}");
+                // **Handle subscription validation**
+                if (eventGridEvent.EventType == "Microsoft.EventGrid.SubscriptionValidationEvent")
+                {
+                    var validationData = JsonConvert.DeserializeObject<SubscriptionValidationEventData>(eventGridEvent.Data.ToString());
+                    return Ok(new { validationResponse = validationData.ValidationCode });
+                }
 
-            // Process the event
-            // Example: Check for a custom event type
-            var eventType = eventGridEvent.GetProperty("eventType").GetString();
-            if (eventType == "CustomEventType")
-            {
-                // Perform custom logic
-                Console.WriteLine("Custom event received!");
+                // **Handle system events (e.g., blob events)**
+                if (eventGridEvent.EventType.StartsWith("Microsoft.Storage."))
+                {
+                    Console.WriteLine($"Azure Storage Event Received: {eventGridEvent.Subject}");
+                }
+
+                // **Handle custom events**
+                if (eventGridEvent.EventType == "CustomEventType")
+                {
+                    Console.WriteLine($"Custom event received: {eventGridEvent.Subject}");
+                }
             }
 
             return Ok();
         }
-
     }
 }
