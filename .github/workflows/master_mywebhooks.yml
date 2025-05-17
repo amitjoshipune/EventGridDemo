@@ -54,6 +54,6 @@ jobs:
         with:
           app-name: 'mywebhooks'
           slot-name: 'Production'
-          package: "D:/a/EventGridDemo/EventGridDemo/myapp"
+          package: "D:/a/EventGridDemo/EventGridDemo/.net-app.zip"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_58D035DBD2724102A68DE80C024EC007 }}
 
